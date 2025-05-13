@@ -1,17 +1,24 @@
 <template>
     <div class="board">
-        <Cell background="green" />
-        <Cell background="red" />
-        <Cell background="blue" /> 
-        <Cell background="yellow" />
+        <Cell :background="getRandomColor()" />
+        <Cell :background="getRandomColor()" />
+        <Cell :background="getRandomColor()" /> 
+        <Cell :background="getRandomColor()" />
+        <Guess />
     </div>
+
 </template>
 
 <script setup>
 import Cell from './Cell.vue';
-
+import Guess from './Guess.vue';
 const colors = ['green', 'red', 'blue', 'yellow']
 
+function getRandomColor() {
+  const index = Math.floor(Math.random() * colors.length)
+
+  return colors[index]
+}
 </script>
 
 <style scoped>
