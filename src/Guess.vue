@@ -5,16 +5,19 @@
         <Cell :background="guess[2]" :clickable=true :index = "2" @cell-clicked="changeColor"/>
         <Cell :background="guess[3]" :clickable=true :index = "3" @cell-clicked="changeColor"/>
         <button @click="submitGuess">Submit</button>
+        <button @click="randomizeGuess">Randomize</button>
     </div>
 </template>
 
 <script setup>
     import { ref } from 'vue';
     import Cell from './Cell.vue';
+    const emit = defineEmits(['submit-clicked']);
     const guess = ref([ 'green', 'green', 'green', 'green' ]);
 
     function submitGuess() {
         console.log('Guess submitted:', guess.value);
+        emit('submit-clicked', guess.value);
     }
 
     function changeColor(index) {
@@ -25,12 +28,24 @@
         const nextColorIndex = (currentColorIndex + 1) % colors.length;
         guess.value[index] = colors[nextColorIndex];
     }
+
+    function randomizeGuess() {
+        const colors = ['green', 'red', 'blue', 'yellow'];
+        for (let i = 0; i < guess.value.length; i++) {
+            const randomIndex = Math.floor(Math.random() * colors.length);
+            guess.value[i] = colors[randomIndex];
+        }
+    }
 </script>
 
 <style scoped>
 .guess {
-    text-align: center;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
     margin-top: 20px;
+    margin-bottom: 20px;
+
 }
 
 input {
