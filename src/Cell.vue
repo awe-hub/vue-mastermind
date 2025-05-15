@@ -1,20 +1,34 @@
 <template>
-    <div class="circle" :style="{ backgroundColor: background }">
-        <!-- Add your cell content here -->
-
+    <div class="circle" :style="{ backgroundColor: background }" @click=clicked()>
     </div>
 </template>
 
 <script setup>
-defineProps({
-        background: String
-    });
+    const emit = defineEmits(['cell-clicked']);
+    const props = defineProps({
+            background: {
+                type: String,
+                default: 'black'
+            },
+            clickable: {
+                type: Boolean,
+                default: false
+            },
+            index: {
+                type: Number,
+                default: 0
+            }
+        });
+    function clicked() {
+        console.log('Cell clicked:', props.background);
+        if (props.clickable) {emit('cell-clicked', props.index);}
+    }
+
 </script>
 
 <style scoped>
-/* Add your styles here */
+
 .circle {
-    /* Example styling */
     width: 50px;
     height: 50px;
     border-radius: 50%;
