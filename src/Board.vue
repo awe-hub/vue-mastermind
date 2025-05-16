@@ -5,8 +5,12 @@
         <Cell :background="getRandomColor()" /> 
         <Cell :background="getRandomColor()" />
     </div>
-    <Guess @submit-clicked="addGuess"/>
-
+    <Guess 
+        v-for="(guess, index) in guesses"
+        :key="index"
+        :value="guess"            
+        @submit-clicked="addGuess">
+    </Guess>
 </template>
 
 <script setup>
@@ -14,7 +18,7 @@ import { ref } from 'vue';
 import Cell from './Cell.vue';
 import Guess from './Guess.vue';
 const colors = ['green', 'red', 'blue', 'yellow']
-const guesses = ref([])
+const guesses = ref(Array(10))
 
 function getRandomColor() {
   const index = Math.floor(Math.random() * colors.length)

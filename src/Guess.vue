@@ -4,8 +4,10 @@
         <Cell :background="guess[1]" :clickable=true :index = "1" @cell-clicked="changeColor"/>
         <Cell :background="guess[2]" :clickable=true :index = "2" @cell-clicked="changeColor"/>
         <Cell :background="guess[3]" :clickable=true :index = "3" @cell-clicked="changeColor"/>
-        <button @click="submitGuess">Submit</button>
-        <button @click="randomizeGuess">Randomize</button>
+        <div class="button-container">
+            <button @click="submitGuess">Submit</button>
+            <button @click="randomizeGuess">Randomize</button>
+        </div>
     </div>
 </template>
 
@@ -41,12 +43,27 @@
 <style scoped>
 .guess {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr); /* 4 cells + 1 column for buttons */
     gap: 10px;
     margin-top: 20px;
     margin-bottom: 20px;
-
+    padding: 15px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background-color: #5b1c1c;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
 }
+
+.guess:hover {
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow on hover */
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;}
 
 input {
     margin-right: 10px;
@@ -54,7 +71,17 @@ input {
 }
 
 button {
-    padding: 5px 10px;
+    padding: 2px 10px;
     cursor: pointer;
+    background-color: #007BFF;
+    color: white;
+    border: 2px solid #0056b3; /* Add a border with a darker blue color */
+    border-radius: 5px; /* Optional: Add rounded corners */
+    transition: background-color 0.3s, border-color 0.3s; /* Smooth hover effect */
+}
+
+button:hover {
+    background-color: #0056b3; /* Darken background on hover */
+    border-color: #003f7f; /* Darken border on hover */
 }
 </style>
