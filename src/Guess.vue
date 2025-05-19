@@ -58,7 +58,7 @@
 <style scoped>
 .guess {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 4 cells + 1 column for buttons */
+    grid-template-columns: 60px 60px 60px 60px 100px; /* 4 cells + 1 column for buttons */
     gap: 10px;
     margin-top: 20px;
     margin-bottom: 20px;
