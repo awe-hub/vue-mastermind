@@ -1,9 +1,9 @@
 <template>
     <div class="guess">
-        <Cell :background="guess[0]" :clickable=isActive :hidden="!isActive" :index = "0" @cell-clicked="changeColor"/>
-        <Cell :background="guess[1]" :clickable=isActive :hidden="!isActive" :index = "1" @cell-clicked="changeColor"/>
-        <Cell :background="guess[2]" :clickable=isActive :hidden="!isActive" :index = "2" @cell-clicked="changeColor"/>
-        <Cell :background="guess[3]" :clickable=isActive :hidden="!isActive" :index = "3" @cell-clicked="changeColor"/>
+        <Cell :background="guess[0]" :clickable=isActive :hidden="!isActive && !isLocked" :index = "0" @cell-clicked="changeColor"/>
+        <Cell :background="guess[1]" :clickable=isActive :hidden="!isActive && !isLocked" :index = "1" @cell-clicked="changeColor"/>
+        <Cell :background="guess[2]" :clickable=isActive :hidden="!isActive && !isLocked" :index = "2" @cell-clicked="changeColor"/>
+        <Cell :background="guess[3]" :clickable=isActive :hidden="!isActive && !isLocked" :index = "3" @cell-clicked="changeColor"/>
         <div class="button-container">
             <button @click="submitGuess" :disabled="!isActive" :hidden="!isActive">Submit</button>
             <button @click="randomizeGuess" :disabled="!isActive" :hidden="!isActive">Randomize</button>
@@ -19,7 +19,11 @@
         isActive: {
             type: Boolean,
             default: false
-        }
+        },
+        isLocked: {
+            type: Boolean,
+            default: false
+        },
     });
     const guess = ref([ "black", "black", "black", "black" ]);
 

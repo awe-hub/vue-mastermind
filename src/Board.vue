@@ -9,7 +9,8 @@
         v-for="(guess, index) in guesses"
         :key="index"
         :value="guess"
-        :isActive="index === activeGuessIndex"        
+        :isActive="index === activeGuessIndex" 
+        :isLocked="index < activeGuessIndex"      
         @submit-clicked="addGuess">
     </Guess>
 </template>
