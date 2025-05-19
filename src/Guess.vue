@@ -86,17 +86,25 @@ input {
 }
 
 button {
-    padding: 2px 10px;
+    padding: 2px 10px; /* Increase padding for a more prominent look */
     cursor: pointer;
-    background-color: #007BFF;
+    background: linear-gradient(to bottom, #007BFF, #0056b3); /* Add a gradient for a 3D effect */
     color: white;
-    border: 2px solid #0056b3; /* Add a border with a darker blue color */
-    border-radius: 5px; /* Optional: Add rounded corners */
-    transition: background-color 0.3s, border-color 0.3s; /* Smooth hover effect */
+    border: 2px solid #0056b3; /* Border color matches the gradient */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add a shadow for depth */
+    transition: transform 0.2s, box-shadow 0.2s; /* Smooth hover effect */
 }
 
 button:hover {
-    background-color: #0056b3; /* Darken background on hover */
-    border-color: #003f7f; /* Darken border on hover */
+    background: linear-gradient(to bottom, #0056b3, #003f7f); /* Darken gradient on hover */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3); /* Stronger shadow on hover */
+    transform: translateY(-2px); /* Slightly lift the button */
+}
+
+button:active {
+    background: linear-gradient(to bottom, #003f7f, #0056b3); /* Invert gradient on click */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Reduce shadow on click */
+    transform: translateY(2px); /* Simulate button press */
 }
 </style>
