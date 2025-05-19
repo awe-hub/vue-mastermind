@@ -25,16 +25,22 @@
             default: false
         },
     });
+    const colors = ['green', 'red', 'blue', 'yellow'];
     const guess = ref([ "black", "black", "black", "black" ]);
 
     function submitGuess() {
         console.log('Guess submitted:', guess.value);
+        const isValid = guess.value.every(color => colors.includes(color));
+        if (!isValid) {
+            alert(`Invalid guess. All pegs must be one of: ${colors.join(', ')}`);
+            console.error('Invalid guess. All pegs must be one of:', colors);
+            return;
+        }
         emit('submit-clicked', guess.value);
     }
 
     function changeColor(index) {
         console.log('Changing color at index:', index);
-        const colors = ['green', 'red', 'blue', 'yellow'];
         const currentColorIndex = colors.indexOf(guess.value[index]);
         console.log('Current color index:', currentColorIndex);
         const nextColorIndex = (currentColorIndex + 1) % colors.length;
@@ -42,7 +48,6 @@
     }
 
     function randomizeGuess() {
-        const colors = ['green', 'red', 'blue', 'yellow'];
         for (let i = 0; i < guess.value.length; i++) {
             const randomIndex = Math.floor(Math.random() * colors.length);
             guess.value[i] = colors[randomIndex];
