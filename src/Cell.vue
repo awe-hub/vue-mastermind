@@ -29,7 +29,7 @@
             }
         });
     function clicked() {
-        console.log('Cell clicked:', props.background);
+
         if (props.clickable) {emit('cell-clicked', props.index);}
     }
 
