@@ -29,7 +29,8 @@ function getRandomColor() {
 }
 function addGuess(guess) {
   console.log('Adding guess:', guess)
-  guesses.value.push(guess)
+  guesses.value[activeGuessIndex.value] = guess
+  activeGuessIndex.value += 1
   console.log('Guesses:', guesses.value)
 }
 </script>
