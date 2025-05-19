@@ -8,7 +8,8 @@
     <Guess 
         v-for="(guess, index) in guesses"
         :key="index"
-        :value="guess"            
+        :value="guess"
+        :isActive="index === activeGuessIndex"        
         @submit-clicked="addGuess">
     </Guess>
 </template>
@@ -19,6 +20,7 @@ import Cell from './Cell.vue';
 import Guess from './Guess.vue';
 const colors = ['green', 'red', 'blue', 'yellow']
 const guesses = ref(Array(10))
+const activeGuessIndex = ref(0)
 
 function getRandomColor() {
   const index = Math.floor(Math.random() * colors.length)

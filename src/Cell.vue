@@ -1,5 +1,10 @@
 <template>
-    <div class="circle" :style="{ backgroundColor: background }" @click=clicked()>
+    <div 
+        class="circle" 
+        :style="{ backgroundColor: background }" 
+        @click=clicked()
+        :class="{ hidden: hidden }"
+    >
     </div>
 </template>
 
@@ -17,6 +22,10 @@
             index: {
                 type: Number,
                 default: 0
+            },
+            hidden: {
+                type: Boolean,
+                default: false
             }
         });
     function clicked() {
@@ -36,5 +45,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.circle.hidden {
+    opacity: 0;
+    pointer-events: none;
 }
 </style>

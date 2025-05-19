@@ -1,12 +1,12 @@
 <template>
     <div class="guess">
-        <Cell :background="guess[0]" :clickable=true :index = "0" @cell-clicked="changeColor"/>
-        <Cell :background="guess[1]" :clickable=true :index = "1" @cell-clicked="changeColor"/>
-        <Cell :background="guess[2]" :clickable=true :index = "2" @cell-clicked="changeColor"/>
-        <Cell :background="guess[3]" :clickable=true :index = "3" @cell-clicked="changeColor"/>
+        <Cell :background="guess[0]" :clickable=isActive :hidden="!isActive" :index = "0" @cell-clicked="changeColor"/>
+        <Cell :background="guess[1]" :clickable=isActive :hidden="!isActive" :index = "1" @cell-clicked="changeColor"/>
+        <Cell :background="guess[2]" :clickable=isActive :hidden="!isActive" :index = "2" @cell-clicked="changeColor"/>
+        <Cell :background="guess[3]" :clickable=isActive :hidden="!isActive" :index = "3" @cell-clicked="changeColor"/>
         <div class="button-container">
-            <button @click="submitGuess">Submit</button>
-            <button @click="randomizeGuess">Randomize</button>
+            <button @click="submitGuess" :disabled="!isActive" :hidden="!isActive">Submit</button>
+            <button @click="randomizeGuess" :disabled="!isActive" :hidden="!isActive">Randomize</button>
         </div>
     </div>
 </template>
@@ -15,7 +15,13 @@
     import { ref } from 'vue';
     import Cell from './Cell.vue';
     const emit = defineEmits(['submit-clicked']);
-    const guess = ref([ 'green', 'green', 'green', 'green' ]);
+    const props = defineProps({
+        isActive: {
+            type: Boolean,
+            default: false
+        }
+    });
+    const guess = ref([ "black", "black", "black", "black" ]);
 
     function submitGuess() {
         console.log('Guess submitted:', guess.value);
