@@ -1,7 +1,7 @@
 <template>
     <div class="guess">
         <Cell
-            v-for="(color, index) in guess"
+            v-for="(color, index) in localGuessColors"
             :key="index"
             :background="color"
             :clickable="isActive"
@@ -9,7 +9,7 @@
             @cell-clicked="changeColor(index)"
         />
         <div class="button-container">
-            <Feedback :feedbackPegs="feedback" /> 
+            <Feedback :feedbackPegs="guess.feedback" /> 
             <button @click="submitGuess" :disabled="!isActive" :hidden="!isActive">Submit</button>
             <button @click="randomizeGuess" :disabled="!isActive" :hidden="!isActive">Randomize</button>
         </div>
@@ -31,35 +31,41 @@
             type: Boolean,
             default: false
         },
+        guess: {
+            type: Object,
+            default: () => ({
+                colors: [], // Default colors for the guess
+                feedback: [] // Default empty feedback
+            })
+        }
     });
     const colors = ['green', 'red', 'blue', 'yellow'];
-    const guess = ref([ "gray", "gray", "gray", "gray" ]);
-    const feedback = ref([]);
+    const localGuessColors = ref(["gray", "gray", "gray", "gray" ]);
 
     function submitGuess() {
-        console.log('Guess submitted:', guess.value);
-        const isValid = guess.value.every(color => colors.includes(color));
+        console.log('Guess submitted:', localGuessColors.value);
+        const isValid = localGuessColors.value.every(color => colors.includes(color));
         if (!isValid) {
             alert(`Invalid guess. All pegs must be one of: ${colors.join(', ')}`);
             console.error('Invalid guess. All pegs must be one of:', colors);
             return;
         }
 
-        feedback.value = ['correct', 'correct', 'almost'];
+        //props.guess.feedback = ['correct', 'correct', 'almost'];
 
-        emit('submit-clicked', guess.value);
+        emit('submit-clicked', localGuessColors.value);
     }
 
     function changeColor(index) {
-        const currentColorIndex = colors.indexOf(guess.value[index]);
+        const currentColorIndex = colors.indexOf(localGuessColors.value[index]);
         const nextColorIndex = (currentColorIndex + 1) % colors.length;
-        guess.value[index] = colors[nextColorIndex];
+        localGuessColors.value[index] = colors[nextColorIndex];
     }
 
     function randomizeGuess() {
-        for (let i = 0; i < guess.value.length; i++) {
+        for (let i = 0; i < localGuessColors.value.length; i++) {
             const randomIndex = Math.floor(Math.random() * colors.length);
-            guess.value[i] = colors[randomIndex];
+            localGuessColors.value[i] = colors[randomIndex];
         }
     }
 </script>
