@@ -33,7 +33,7 @@
         },
     });
     const colors = ['green', 'red', 'blue', 'yellow'];
-    const guess = ref([ "black", "black", "black", "black" ]);
+    const guess = ref([ "gray", "gray", "gray", "gray" ]);
     const feedback = ref([]);
 
     function submitGuess() {
