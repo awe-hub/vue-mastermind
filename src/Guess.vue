@@ -9,6 +9,7 @@
             @cell-clicked="changeColor(index)"
         />
         <div class="button-container">
+            <Feedback :feedbackPegs="feedback" /> 
             <button @click="submitGuess" :disabled="!isActive" :hidden="!isActive">Submit</button>
             <button @click="randomizeGuess" :disabled="!isActive" :hidden="!isActive">Randomize</button>
         </div>
@@ -18,6 +19,8 @@
 <script setup>
     import { ref } from 'vue';
     import Cell from './Cell.vue';
+    import Feedback from './Feedback.vue';
+
     const emit = defineEmits(['submit-clicked']);
     const props = defineProps({
         isActive: {
@@ -31,6 +34,7 @@
     });
     const colors = ['green', 'red', 'blue', 'yellow'];
     const guess = ref([ "black", "black", "black", "black" ]);
+    const feedback = ref([]);
 
     function submitGuess() {
         console.log('Guess submitted:', guess.value);
@@ -40,6 +44,9 @@
             console.error('Invalid guess. All pegs must be one of:', colors);
             return;
         }
+
+        feedback.value = ['correct', 'correct', 'almost'];
+
         emit('submit-clicked', guess.value);
     }
 
