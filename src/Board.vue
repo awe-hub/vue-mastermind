@@ -1,13 +1,20 @@
 <template>
-    <div class="answer" :class="{ hidden: !gameOver }">
-        <Cell :background="key[0]" />
-        <Cell :background="key[1]" />
-        <Cell :background="key[2]" /> 
-        <Cell :background="key[3]" />
+    <div class="answer">
+        <Cell
+          v-for="(color, index) in key"
+          :key="index"
+          :background="color"
+          :clickable="false"
+          :hidden="!gameOver"
+        />
+        <div class="button-container">
+          <BaseButton @click="resetGame()">Reset</BaseButton>
+          <BaseButton @click="giveUp()">Give Up</BaseButton>
+        </div>  
     </div>
     <Guess 
         v-for="(guess, index) in guesses"
-        :key="index"
+        :key="resetKey + '-' + index"
         :guess="guess"
         :isActive="(index === activeGuessIndex && !gameOver)" 
         :isLocked="(index < activeGuessIndex)"      
@@ -19,6 +26,7 @@
 import { ref } from 'vue';
 import Cell from './Cell.vue';
 import Guess from './Guess.vue';
+import BaseButton from './components/BaseButton.vue';
 const colors = ['green', 'red', 'blue', 'yellow']
 const key = ref([])
 const guesses = ref(Array.from({ length: 10 }, () => ({
@@ -28,8 +36,9 @@ const guesses = ref(Array.from({ length: 10 }, () => ({
 ));
 const activeGuessIndex = ref(0)
 const gameOver = ref(false)
+const resetKey = ref(0);
 
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < 4; i++) {
   key.value.push(getRandomColor())
 }
 
@@ -38,6 +47,26 @@ function getRandomColor() {
 
   return colors[index]
 }
+function resetGame() {
+  console.log('Resetting game...')
+  key.value = []
+  for (let i = 0; i < 4; i++) {
+    key.value.push(getRandomColor())
+  }
+  guesses.value = Array.from({ length: 10 }, () => ({
+    colors: [],
+    feedback: []
+  }))
+  activeGuessIndex.value = 0
+  gameOver.value = false
+  resetKey.value++;
+}
+
+function giveUp() {
+  gameOver.value = true
+  console.log('Game over. The key was:', key.value)
+}
+
 function addGuess(guessColors) {
   const feedback = checkGuess(guessColors)
   console.log('Adding guess:', guessColors)
@@ -99,12 +128,19 @@ function checkGuess(guess) {
 <style scoped>
 .answer {
     display: grid;
-    grid-template-columns: repeat(4, 60px);
+    grid-template-columns: 60px 60px 60px 60px 100px;
     gap: 10px;
+    padding: 15px
 }
 
 .answer.hidden {
     opacity: 0;
 }
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;}
 
 </style>
