@@ -47,11 +47,34 @@ function addGuess(guessColors) {
 }
 
 function checkGuess(guess) {
+  const feedback = []
+  const unmatchedKey = {}
+  const unmatchedGuess = {}
   console.log('Checking guess:', guess)
-  // Here you would implement the logic to check the guess against the key
-  // and provide feedback, e.g., correct or almost correct.
-  // This is a placeholder for demonstration purposes.
-  return ['correct', 'almost', 'almost']
+  for (let i = 0; i < guess.length; i++) {
+    if (guess[i] == key.value[i]) { 
+      feedback.push('correct')
+    } else {
+      unmatchedKey[key.value[i]] = (unmatchedKey[key.value[i]] || 0) + 1
+      unmatchedGuess[guess[i]] = (unmatchedGuess[guess[i]] || 0) + 1
+    }
+  }
+  console.log('Unmatched Key:', unmatchedKey)
+  console.log('Unmatched Guess:', unmatchedGuess)
+  let residualMatches = 0
+  //for (let [key, value] of Object.entries(unmatchedGuess)) {
+  for (const color in unmatchedGuess) {
+    if (unmatchedKey[color] && unmatchedGuess[color]) {
+      console.log(residualMatches)
+      console.log(`Matching color: ${color}, Guess: ${unmatchedGuess[color]}, Key: ${unmatchedKey[color]}`)
+      residualMatches += Math.min(unmatchedGuess[color], unmatchedKey[color])
+    }   
+  }
+  for (let i = 0; i < residualMatches; i++) {
+    feedback.push('almost')
+  }
+
+  return feedback
 }
 
 </script>
