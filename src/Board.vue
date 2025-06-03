@@ -37,6 +37,7 @@ const guesses = ref(Array.from({ length: 10 }, () => ({
 const activeGuessIndex = ref(0)
 const gameOver = ref(false)
 const resetKey = ref(0);
+const emit = defineEmits(['game-end']);
 
 for (let i = 0; i < 4; i++) {
   key.value.push(getRandomColor())
@@ -64,7 +65,8 @@ function resetGame() {
 
 function giveUp() {
   gameOver.value = true
-  console.log('Game over. The key was:', key.value)
+  emit('game-end', 'loss');
+  console.log('You gave up! The key was:', key.value)
 }
 
 function addGuess(guessColors) {
@@ -78,12 +80,14 @@ function addGuess(guessColors) {
   if (activeGuessIndex.value >= guesses.value.length) {
     alert('Game over! You have used all your guesses.')
     gameOver.value = true
+    emit('game-end', 'loss');
     return
   }
 
   if (feedback.every(f => f === 'correct')) {
     alert('Winner! Congratulations! You guessed the key!')
     gameOver.value = true
+    emit('game-end', 'win');
     return
   }
 }
