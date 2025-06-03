@@ -10,8 +10,8 @@
         />
         <div class="button-container">
             <Feedback :feedbackPegs="guess.feedback" /> 
-            <button @click="submitGuess" :disabled="!isActive" :hidden="!isActive">Submit</button>
-            <button @click="randomizeGuess" :disabled="!isActive" :hidden="!isActive">Randomize</button>
+            <BaseButton @click="submitGuess" :disabled="!isActive" :hidden="!isActive">Submit</BaseButton>
+            <BaseButton @click="randomizeGuess" :disabled="!isActive" :hidden="!isActive">Randomize</BaseButton>
         </div>
     </div>
 </template>
@@ -20,6 +20,7 @@
     import { ref } from 'vue';
     import Cell from './Cell.vue';
     import Feedback from './Feedback.vue';
+    import BaseButton from './components/BaseButton.vue';
 
     const emit = defineEmits(['submit-clicked']);
     const props = defineProps({
@@ -95,31 +96,4 @@
     justify-content: center;
     gap: 5px;}
 
-input {
-    margin-right: 10px;
-    padding: 5px;
-}
-
-button {
-    padding: 2px 10px; /* Increase padding for a more prominent look */
-    cursor: pointer;
-    background: linear-gradient(to bottom, #007BFF, #0056b3); /* Add a gradient for a 3D effect */
-    color: white;
-    border: 2px solid #0056b3; /* Border color matches the gradient */
-    border-radius: 5px; /* Rounded corners */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add a shadow for depth */
-    transition: transform 0.2s, box-shadow 0.2s; /* Smooth hover effect */
-}
-
-button:hover {
-    background: linear-gradient(to bottom, #0056b3, #003f7f); /* Darken gradient on hover */
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3); /* Stronger shadow on hover */
-    transform: translateY(-2px); /* Slightly lift the button */
-}
-
-button:active {
-    background: linear-gradient(to bottom, #003f7f, #0056b3); /* Invert gradient on click */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Reduce shadow on click */
-    transform: translateY(2px); /* Simulate button press */
-}
 </style>
