@@ -50,7 +50,9 @@ function checkGuess(guess) {
   const feedback = []
   const unmatchedKey = {}
   const unmatchedGuess = {}
+
   console.log('Checking guess:', guess)
+
   for (let i = 0; i < guess.length; i++) {
     if (guess[i] == key.value[i]) { 
       feedback.push('correct')
@@ -59,19 +61,21 @@ function checkGuess(guess) {
       unmatchedGuess[guess[i]] = (unmatchedGuess[guess[i]] || 0) + 1
     }
   }
-  console.log('Unmatched Key:', unmatchedKey)
-  console.log('Unmatched Guess:', unmatchedGuess)
+
   let residualMatches = 0
-  //for (let [key, value] of Object.entries(unmatchedGuess)) {
+
   for (const color in unmatchedGuess) {
     if (unmatchedKey[color] && unmatchedGuess[color]) {
-      console.log(residualMatches)
-      console.log(`Matching color: ${color}, Guess: ${unmatchedGuess[color]}, Key: ${unmatchedKey[color]}`)
       residualMatches += Math.min(unmatchedGuess[color], unmatchedKey[color])
     }   
   }
   for (let i = 0; i < residualMatches; i++) {
     feedback.push('almost')
+  }
+
+  // Fill the rest of the feedback with 'none' if needed
+  while (feedback.length < 4) {
+    feedback.push('none')
   }
 
   return feedback

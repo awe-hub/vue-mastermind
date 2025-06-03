@@ -53,6 +53,8 @@ function darkenColor(color, percent) {
 .circle {
     width: 50px;
     height: 50px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     border-radius: 50%;
     border: 1px solid #ccc;
     display: flex;

@@ -3,7 +3,7 @@
         <div 
             v-for="(peg, index) in feedbackPegs" 
             :key="index" 
-            :class="['peg', peg === 'correct' ? 'correct' : 'almost']"
+            :class="['peg', peg === 'correct' ? 'correct' : peg === 'almost' ? 'almost' : '']"
         >
         </div>
     </div>
@@ -34,6 +34,7 @@ const props = defineProps({
     height: 15px;
     border-radius: 50%;
     border: 1px solid #ccc;
+    background-color: transparent;
 }
 
 .peg.correct {
