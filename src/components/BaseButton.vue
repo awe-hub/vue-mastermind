@@ -36,4 +36,18 @@ defineProps({
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   transform: translateY(2px);
 }
+
+.base-button:disabled {
+  opacity: 0.5;
+  background: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.base-button:disabled:hover {
+  transform: none;
+  background: #cccccc;
+  box-shadow: none;
+}
+
 </style>

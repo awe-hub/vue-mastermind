@@ -10,7 +10,7 @@
         />
         <div class="button-container">
             <Feedback :feedbackPegs="guess.feedback" /> 
-            <BaseButton @click="submitGuess" :disabled="!isActive" :hidden="!isActive">Submit</BaseButton>
+            <BaseButton @click="submitGuess" :disabled="!isActive || (localGuessColors.some(color => color === 'gray')) " :hidden="!isActive">Submit</BaseButton>
             <BaseButton @click="randomizeGuess" :disabled="!isActive" :hidden="!isActive">Randomize</BaseButton>
         </div>
     </div>
@@ -35,8 +35,8 @@
         guess: {
             type: Object,
             default: () => ({
-                colors: [], // Default colors for the guess
-                feedback: [] // Default empty feedback
+                colors: [],
+                feedback: []
             })
         }
     });
@@ -51,8 +51,6 @@
             console.error('Invalid guess. All pegs must be one of:', colors);
             return;
         }
-
-        //props.guess.feedback = ['correct', 'correct', 'almost'];
 
         emit('submit-clicked', localGuessColors.value);
     }
