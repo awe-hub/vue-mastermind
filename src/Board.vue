@@ -1,5 +1,5 @@
 <template>
-    <div class="board">
+    <div class="answer" :class="{ hidden: !gameOver }">
         <Cell :background="key[0]" />
         <Cell :background="key[1]" />
         <Cell :background="key[2]" /> 
@@ -9,8 +9,8 @@
         v-for="(guess, index) in guesses"
         :key="index"
         :guess="guess"
-        :isActive="index === activeGuessIndex" 
-        :isLocked="index < activeGuessIndex"      
+        :isActive="(index === activeGuessIndex && !gameOver)" 
+        :isLocked="(index < activeGuessIndex)"      
         @submit-clicked="addGuess">
     </Guess>
 </template>
@@ -27,6 +27,7 @@ const guesses = ref(Array.from({ length: 10 }, () => ({
 })
 ));
 const activeGuessIndex = ref(0)
+const gameOver = ref(false)
 
 for (let i = 0; i < 10; i++) {
   key.value.push(getRandomColor())
@@ -44,6 +45,18 @@ function addGuess(guessColors) {
   guesses.value[activeGuessIndex.value] = { colors: guessColors, feedback: feedback }
   activeGuessIndex.value += 1
   console.log('Guesses:', guesses.value)
+
+  if (activeGuessIndex.value >= guesses.value.length) {
+    alert('Game over! You have used all your guesses.')
+    gameOver.value = true
+    return
+  }
+
+  if (feedback.every(f => f === 'correct')) {
+    alert('Winner! Congratulations! You guessed the key!')
+    gameOver.value = true
+    return
+  }
 }
 
 function checkGuess(guess) {
@@ -63,7 +76,7 @@ function checkGuess(guess) {
   }
 
   let residualMatches = 0
-
+ 
   for (const color in unmatchedGuess) {
     if (unmatchedKey[color] && unmatchedGuess[color]) {
       residualMatches += Math.min(unmatchedGuess[color], unmatchedKey[color])
@@ -84,9 +97,14 @@ function checkGuess(guess) {
 </script>
 
 <style scoped>
-.board {
+.answer {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 60px);
     gap: 10px;
 }
+
+.answer.hidden {
+    opacity: 0;
+}
+
 </style>
