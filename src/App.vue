@@ -1,4 +1,5 @@
 <template>
+  <img src="./assets/logo.png" alt="Mastermind Logo" class="logo" />
   <div class="stats">
     Wins: {{ stats.wins }} | Losses: {{ stats.losses }}
   </div>
@@ -38,5 +39,16 @@ function handleGameEnd(result) {
 
 
 <style scoped>
-
+.logo {
+  display: block;
+  max-width: 300px;
+  width: 100%;
+  height: auto;
+  margin: 20px auto 10px auto;
+}
+.stats {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.2em;
+}
 </style>
