@@ -24,6 +24,7 @@
 
 <script setup>
 import { ref } from 'vue';
+import confetti from 'canvas-confetti';
 import Cell from './Cell.vue';
 import Guess from './Guess.vue';
 import BaseButton from './components/BaseButton.vue';
@@ -38,6 +39,7 @@ const activeGuessIndex = ref(0)
 const gameOver = ref(false)
 const resetKey = ref(0);
 const emit = defineEmits(['game-end']);
+const confettiInterval = ref(null)
 
 for (let i = 0; i < 4; i++) {
   key.value.push(getRandomColor())
@@ -61,6 +63,7 @@ function resetGame() {
   activeGuessIndex.value = 0
   gameOver.value = false
   resetKey.value++;
+  stopConfettiLoop();
 }
 
 function giveUp() {
@@ -85,10 +88,29 @@ function addGuess(guessColors) {
   }
 
   if (feedback.every(f => f === 'correct')) {
-    alert('Winner! Congratulations! You guessed the key!')
+    //alert('Winner! Congratulations! You guessed the key!')
     gameOver.value = true
     emit('game-end', 'win');
+    startConfettiLoop();
     return
+  }
+}
+
+function startConfettiLoop() {
+  if (confettiInterval.value) return;
+
+  confettiInterval.value = setInterval(() => {
+    confetti({
+      particleCount: 200,
+      spread: 160
+    });
+  }, 1000);
+}
+
+function stopConfettiLoop() {
+  if (confettiInterval.value) {
+    clearInterval(confettiInterval.value);
+    confettiInterval.value = null;
   }
 }
 
