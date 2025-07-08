@@ -23,11 +23,15 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import confetti from 'canvas-confetti';
+import { ref , inject } from 'vue';
+import { useConfetti } from './composables/useConfetti';
+
 import Cell from './Cell.vue';
 import Guess from './Guess.vue';
 import BaseButton from './components/BaseButton.vue';
+
+const confetti = inject('ms-confetti');
+const { startConfettiLoop, stopConfettiLoop } = useConfetti(confetti);
 const colors = ['green', 'red', 'blue', 'yellow']
 const key = ref([])
 const guesses = ref(Array.from({ length: 10 }, () => ({
@@ -39,7 +43,6 @@ const activeGuessIndex = ref(0)
 const gameOver = ref(false)
 const resetKey = ref(0);
 const emit = defineEmits(['game-end']);
-const confettiInterval = ref(null)
 
 for (let i = 0; i < 4; i++) {
   key.value.push(getRandomColor())
@@ -93,24 +96,6 @@ function addGuess(guessColors) {
     emit('game-end', 'win');
     startConfettiLoop();
     return
-  }
-}
-
-function startConfettiLoop() {
-  if (confettiInterval.value) return;
-
-  confettiInterval.value = setInterval(() => {
-    confetti({
-      particleCount: 200,
-      spread: 160
-    });
-  }, 1000);
-}
-
-function stopConfettiLoop() {
-  if (confettiInterval.value) {
-    clearInterval(confettiInterval.value);
-    confettiInterval.value = null;
   }
 }
 

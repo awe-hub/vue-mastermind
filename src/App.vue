@@ -8,9 +8,11 @@
 
 <script setup>
 
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, provide } from 'vue';
+import confetti from 'canvas-confetti';
 import Board from './Board.vue';
 
+provide('ms-confetti', confetti);
 const stats = ref({ wins: 0, losses: 0 });
 
 function getStats() {
