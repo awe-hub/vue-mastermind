@@ -28,6 +28,6 @@ export function useConfetti(confetti) {
         }());    
     }
 
-    return { startConfettiLoop, stopConfettiLoop, genericConfetti }
+    return { genericConfetti }
 }
 

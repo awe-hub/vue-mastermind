@@ -25,6 +25,7 @@
 <script setup>
 import { ref , inject } from 'vue';
 import { useConfetti } from './composables/useConfetti';
+import { gameLogic } from './composables/gameLogic';
 
 import Cell from './Cell.vue';
 import Guess from './Guess.vue';
@@ -32,6 +33,7 @@ import BaseButton from './components/BaseButton.vue';
 
 const confetti = inject('ms-confetti');
 const { genericConfetti } = useConfetti(confetti);
+const { checkGuess } = gameLogic();
 const colors = ['green', 'red', 'blue', 'yellow']
 const key = ref([])
 const guesses = ref(Array.from({ length: 10 }, () => ({
@@ -75,7 +77,7 @@ function giveUp() {
 }
 
 function addGuess(guessColors) {
-  const feedback = checkGuess(guessColors)
+  const feedback = checkGuess(guessColors, key)
   console.log('Adding guess:', guessColors)
   console.log('Feedback:', feedback)
   guesses.value[activeGuessIndex.value] = { colors: guessColors, feedback: feedback }
@@ -96,41 +98,6 @@ function addGuess(guessColors) {
     genericConfetti();
     return
   }
-}
-
-function checkGuess(guess) {
-  const feedback = []
-  const unmatchedKey = {}
-  const unmatchedGuess = {}
-
-  console.log('Checking guess:', guess)
-
-  for (let i = 0; i < guess.length; i++) {
-    if (guess[i] == key.value[i]) { 
-      feedback.push('correct')
-    } else {
-      unmatchedKey[key.value[i]] = (unmatchedKey[key.value[i]] || 0) + 1
-      unmatchedGuess[guess[i]] = (unmatchedGuess[guess[i]] || 0) + 1
-    }
-  }
-
-  let residualMatches = 0
- 
-  for (const color in unmatchedGuess) {
-    if (unmatchedKey[color] && unmatchedGuess[color]) {
-      residualMatches += Math.min(unmatchedGuess[color], unmatchedKey[color])
-    }   
-  }
-  for (let i = 0; i < residualMatches; i++) {
-    feedback.push('almost')
-  }
-
-  // Fill the rest of the feedback with 'none' if needed
-  while (feedback.length < 4) {
-    feedback.push('none')
-  }
-
-  return feedback
 }
 
 </script>
