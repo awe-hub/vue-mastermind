@@ -31,7 +31,7 @@ import Guess from './Guess.vue';
 import BaseButton from './components/BaseButton.vue';
 
 const confetti = inject('ms-confetti');
-const { startConfettiLoop, stopConfettiLoop } = useConfetti(confetti);
+const { genericConfetti } = useConfetti(confetti);
 const colors = ['green', 'red', 'blue', 'yellow']
 const key = ref([])
 const guesses = ref(Array.from({ length: 10 }, () => ({
@@ -66,7 +66,6 @@ function resetGame() {
   activeGuessIndex.value = 0
   gameOver.value = false
   resetKey.value++;
-  stopConfettiLoop();
 }
 
 function giveUp() {
@@ -94,7 +93,7 @@ function addGuess(guessColors) {
     //alert('Winner! Congratulations! You guessed the key!')
     gameOver.value = true
     emit('game-end', 'win');
-    startConfettiLoop();
+    genericConfetti();
     return
   }
 }
