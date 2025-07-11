@@ -1,5 +1,30 @@
+import { ref } from 'vue';
+
 export function gameLogic() {
-  function checkGuess(guess, key) {
+  const colors = ['green', 'red', 'blue', 'yellow']
+  const key = ref([])
+  const guesses = ref(Array.from({ length: 10 }, () => ({
+      colors: [],
+      feedback: []
+    })
+  ));
+  const activeGuessIndex = ref(0)
+  const gameOver = ref(false)
+  const resetKey = ref(0);
+
+  function generateKey() {
+    for (let i = 0; i < 4; i++) {
+      key.value.push(getRandomColor())
+    }
+  }
+
+  function getRandomColor() {
+    const index = Math.floor(Math.random() * colors.length)
+
+    return colors[index]
+  }
+
+  function checkGuess(guess) {
     const feedback = []
     const unmatchedKey = {}
     const unmatchedGuess = {}
@@ -41,6 +66,18 @@ export function gameLogic() {
   function isLoss(numGuesses, maxGuesses) {
     return (numGuesses >= maxGuesses)
   }
-  
-  return { checkGuess, isWin, isLoss }
+
+  function resetGame() {
+    console.log('Resetting game...')
+    generateKey()
+    guesses.value = Array.from({ length: 10 }, () => ({
+      colors: [],
+      feedback: []
+    }))
+    activeGuessIndex.value = 0
+    gameOver.value = false
+    resetKey.value++;
+  }
+
+  return { key, guesses, activeGuessIndex, gameOver, resetKey, generateKey, checkGuess, isWin, isLoss, resetGame }
 }
