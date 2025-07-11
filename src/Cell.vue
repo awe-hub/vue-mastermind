@@ -33,19 +33,19 @@
         if (props.clickable) {emit('cell-clicked', props.index);}
     }
 
-// Utility function to darken a color
-function darkenColor(color, percent) {
-    const num = parseInt(color.slice(1), 16); // Convert hex to integer
-    const amt = Math.round(2.55 * Math.max(percent, 20)); // Ensure a minimum adjustment of 20%
+    // Utility function to darken a color
+    function darkenColor(color, percent) {
+        const num = parseInt(color.slice(1), 16); // Convert hex to integer
+        const amt = Math.round(2.55 * Math.max(percent, 20)); // Ensure a minimum adjustment of 20%
 
-    // Adjust each color channel and clamp the values between 0 and 255
-    const r = Math.max(0, (num >> 16) - amt); // Adjust red
-    const g = Math.max(0, ((num >> 8) & 0x00ff) - amt); // Adjust green
-    const b = Math.max(0, (num & 0x0000ff) - amt); // Adjust blue
+        // Adjust each color channel and clamp the values between 0 and 255
+        const r = Math.max(0, (num >> 16) - amt); // Adjust red
+        const g = Math.max(0, ((num >> 8) & 0x00ff) - amt); // Adjust green
+        const b = Math.max(0, (num & 0x0000ff) - amt); // Adjust blue
 
-    // Convert back to hex and return the darkened color
-    return `#${(0x1000000 + (r * 0x10000) + (g * 0x100) + b).toString(16).slice(1)}`;
-}
+        // Convert back to hex and return the darkened color
+        return `#${(0x1000000 + (r * 0x10000) + (g * 0x100) + b).toString(16).slice(1)}`;
+    }
 </script>
 
 <style scoped>
