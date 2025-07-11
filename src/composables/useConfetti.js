@@ -1,33 +1,44 @@
 export function useConfetti(confetti) {
+    var stop = false;
     // adapted from canvas-confetti example
     function genericConfetti() {
         // do this for 15 seconds
-        var duration = 15 * 1000;
-        var end = Date.now() + duration;
+        const duration = 15 * 1000;
+        const start = Date.now()
+        const end = start + duration;
+        stop = false;
 
         (function frame() {
-        // launch a few confetti from the left edge
-        confetti({
-            particleCount: 7,
-            angle: 60,
-            spread: 55,
-            origin: { x: 0 }
-        });
-        // and launch a few from the right edge
-        confetti({
-            particleCount: 7,
-            angle: 120,
-            spread: 55,
-            origin: { x: 1 }
-        });
-
-        // keep going until we are out of time
-        if (Date.now() < end) {
-            requestAnimationFrame(frame);
-        }
+            // pulse the confetti
+            const now = Date.now()
+            const elapsedSeconds = Math.floor((now - start) / 1000);
+            if (elapsedSeconds % 2 === 0) {
+                // launch a few confetti from the left edge
+                confetti({
+                    particleCount: 7,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 }
+                });
+                // and launch a few from the right edge
+                confetti({
+                    particleCount: 7,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 }
+                });
+            }
+            // keep going until we are out of time or until manually stopped
+            if (now < end && !stop) {
+                requestAnimationFrame(frame);
+            }
         }());    
     }
 
-    return { genericConfetti }
+    function stopConfetti() {
+        stop = true;
+    }
+
+    return { genericConfetti, stopConfetti}
 }
 

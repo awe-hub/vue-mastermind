@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import { inject } from 'vue';
+import { watch, inject } from 'vue';
 import { useConfetti } from './composables/useConfetti';
 import { gameLogic } from './composables/gameLogic';
 
@@ -32,12 +32,16 @@ import Guess from './Guess.vue';
 import BaseButton from './components/BaseButton.vue';
 
 const confetti = inject('ms-confetti');
-const { genericConfetti } = useConfetti(confetti);
+const { genericConfetti, stopConfetti } = useConfetti(confetti);
 const { gameId, key, guesses, activeGuessIndex, gameOver, checkGuess, isWin, isLoss, resetGame } = gameLogic();
 
 const emit = defineEmits(['game-end']);
 
 resetGame()
+
+watch(gameId, () => {
+  stopConfetti();
+});
 
 function giveUp() {
   gameOver.value = true
