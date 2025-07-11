@@ -33,5 +33,14 @@ export function gameLogic() {
 
     return feedback
   }
-  return { checkGuess }
+
+  function isWin(feedback) {
+    return (feedback.every(f => f === 'correct'))
+  }
+
+  function isLoss(numGuesses, maxGuesses) {
+    return (numGuesses >= maxGuesses)
+  }
+  
+  return { checkGuess, isWin, isLoss }
 }

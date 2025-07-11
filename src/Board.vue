@@ -33,7 +33,7 @@ import BaseButton from './components/BaseButton.vue';
 
 const confetti = inject('ms-confetti');
 const { genericConfetti } = useConfetti(confetti);
-const { checkGuess } = gameLogic();
+const { checkGuess, isWin, isLoss } = gameLogic();
 const colors = ['green', 'red', 'blue', 'yellow']
 const key = ref([])
 const guesses = ref(Array.from({ length: 10 }, () => ({
@@ -84,14 +84,14 @@ function addGuess(guessColors) {
   activeGuessIndex.value += 1
   console.log('Guesses:', guesses.value)
 
-  if (activeGuessIndex.value >= guesses.value.length) {
+  if (isLoss(activeGuessIndex.value, guesses.value.length)) {
     alert('Game over! You have used all your guesses.')
     gameOver.value = true
     emit('game-end', 'loss');
     return
   }
 
-  if (feedback.every(f => f === 'correct')) {
+  if (isWin(feedback)) {
     //alert('Winner! Congratulations! You guessed the key!')
     gameOver.value = true
     emit('game-end', 'win');
