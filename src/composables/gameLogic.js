@@ -10,9 +10,10 @@ export function gameLogic() {
   ));
   const activeGuessIndex = ref(0)
   const gameOver = ref(false)
-  const resetKey = ref(0);
+  const gameId = ref("");
 
   function generateKey() {
+    key.value = []
     for (let i = 0; i < 4; i++) {
       key.value.push(getRandomColor())
     }
@@ -63,12 +64,11 @@ export function gameLogic() {
     return (feedback.every(f => f === 'correct'))
   }
 
-  function isLoss(numGuesses, maxGuesses) {
-    return (numGuesses >= maxGuesses)
+  function isLoss() {
+    return (activeGuessIndex.value >= guesses.value.length)
   }
 
   function resetGame() {
-    console.log('Resetting game...')
     generateKey()
     guesses.value = Array.from({ length: 10 }, () => ({
       colors: [],
@@ -76,8 +76,8 @@ export function gameLogic() {
     }))
     activeGuessIndex.value = 0
     gameOver.value = false
-    resetKey.value++;
+    gameId.value = crypto.randomUUID();
   }
 
-  return { key, guesses, activeGuessIndex, gameOver, resetKey, generateKey, checkGuess, isWin, isLoss, resetGame }
+  return { gameId, key, guesses, activeGuessIndex, gameOver, checkGuess, isWin, isLoss, resetGame }
 }

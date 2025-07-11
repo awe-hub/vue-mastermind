@@ -14,7 +14,7 @@
     </div>
     <Guess 
         v-for="(guess, index) in guesses"
-        :key="resetKey + '-' + index"
+        :key="gameId + '-' + index"
         :guess="guess"
         :isActive="(index === activeGuessIndex && !gameOver)" 
         :isLocked="(index < activeGuessIndex)"      
@@ -33,11 +33,11 @@ import BaseButton from './components/BaseButton.vue';
 
 const confetti = inject('ms-confetti');
 const { genericConfetti } = useConfetti(confetti);
-const { key, guesses, activeGuessIndex, gameOver, resetKey, generateKey, checkGuess, isWin, isLoss, resetGame } = gameLogic();
+const { gameId, key, guesses, activeGuessIndex, gameOver, checkGuess, isWin, isLoss, resetGame } = gameLogic();
 
 const emit = defineEmits(['game-end']);
 
-generateKey()
+resetGame()
 
 function giveUp() {
   gameOver.value = true
@@ -53,13 +53,6 @@ function addGuess(guessColors) {
   activeGuessIndex.value += 1
   console.log('Guesses:', guesses.value)
 
-  if (isLoss(activeGuessIndex.value, guesses.value.length)) {
-    alert('Game over! You have used all your guesses.')
-    gameOver.value = true
-    emit('game-end', 'loss');
-    return
-  }
-
   if (isWin(feedback)) {
     //alert('Winner! Congratulations! You guessed the key!')
     gameOver.value = true
@@ -67,8 +60,14 @@ function addGuess(guessColors) {
     genericConfetti();
     return
   }
-}
 
+  if (isLoss()) {
+    alert('Game over! You have used all your guesses.')
+    gameOver.value = true
+    emit('game-end', 'loss');
+    return
+  }
+}
 </script>
 
 <style scoped>
