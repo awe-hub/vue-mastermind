@@ -1,6 +1,6 @@
 <template>
     <div class="answer">
-        <Cell
+        <GamePeg
           v-for="(color, index) in key"
           :key="index"
           :background="color"
@@ -12,14 +12,14 @@
           <BaseButton @click="giveUp()">Give Up</BaseButton>
         </div>  
     </div>
-    <Guess 
+    <GuessRow 
         v-for="(guess, index) in guesses"
         :key="gameId + '-' + index"
         :guess="guess"
         :isActive="(index === activeGuessIndex && !gameOver)" 
         :isLocked="(index < activeGuessIndex)"      
         @submit-clicked="addGuess">
-    </Guess>
+    </GuessRow>
 </template>
 
 <script setup>
@@ -27,8 +27,8 @@ import { watch, inject } from 'vue';
 import { useConfetti } from './composables/useConfetti';
 import { gameLogic } from './composables/gameLogic';
 
-import Cell from './Cell.vue';
-import Guess from './Guess.vue';
+import GamePeg from './GamePeg.vue';
+import GuessRow from './GuessRow.vue';
 import BaseButton from './components/BaseButton.vue';
 
 const confetti = inject('ms-confetti');

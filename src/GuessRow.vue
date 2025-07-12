@@ -1,6 +1,6 @@
 <template>
     <div class="guess">
-        <Cell
+        <GamePeg
             v-for="(color, index) in localGuessColors"
             :key="index"
             :background="color"
@@ -9,7 +9,7 @@
             @cell-clicked="changeColor(index)"
         />
         <div class="button-container">
-            <Feedback :feedbackPegs="guess.feedback" /> 
+            <GuessFeedback :feedbackPegs="guess.feedback" /> 
             <BaseButton @click="submitGuess" :disabled="!isActive || (localGuessColors.some(color => color === 'gray')) " :hidden="!isActive">Submit</BaseButton>
             <BaseButton @click="randomizeGuess" :disabled="!isActive" :hidden="!isActive">Randomize</BaseButton>
         </div>
@@ -18,8 +18,8 @@
 
 <script setup>
     import { ref } from 'vue';
-    import Cell from './Cell.vue';
-    import Feedback from './Feedback.vue';
+    import GamePeg from './GamePeg.vue';
+    import GuessFeedback from './GuessFeedback.vue';
     import BaseButton from './components/BaseButton.vue';
 
     const emit = defineEmits(['submit-clicked']);

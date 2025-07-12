@@ -3,14 +3,14 @@
   <div class="stats">
     Wins: {{ stats.wins }} | Losses: {{ stats.losses }}
   </div>
-  <Board @game-end="handleGameEnd" />
+  <GameBoard @game-end="handleGameEnd" />
 </template>
 
 <script setup>
 
 import { ref, onMounted, provide } from 'vue';
 import confetti from 'canvas-confetti';
-import Board from './Board.vue';
+import GameBoard from './GameBoard.vue';
 
 provide('ms-confetti', confetti);
 const stats = ref({ wins: 0, losses: 0 });
@@ -29,7 +29,7 @@ onMounted(() => {
   stats.value = getStats();
 });
 
-// Handler to be called from Board.vue
+// Handler to be called from GameBoard.vue
 function handleGameEnd(result) {
   const newStats = getStats();
   if (result === 'win') newStats.wins += 1;
