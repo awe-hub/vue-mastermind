@@ -10,7 +10,7 @@
         />
         <div class="button-container">
             <GuessFeedback :feedbackPegs="guess.feedback" /> 
-            <BaseButton @click="submitGuess" :disabled="!isActive || (localGuessColors.some(color => color === 'gray')) " :hidden="!isActive">Submit</BaseButton>
+            <BaseButton @click="submitGuess" :disabled="!isActive || (localGuessColors.some(color => color === '#808080')) " :hidden="!isActive">Submit</BaseButton>
             <BaseButton @click="randomizeGuess" :disabled="!isActive" :hidden="!isActive">Randomize</BaseButton>
         </div>
     </div>
@@ -40,8 +40,8 @@
             })
         }
     });
-    const colors = ['green', 'red', 'blue', 'yellow'];
-    const localGuessColors = ref(["gray", "gray", "gray", "gray" ]);
+    const colors = ["#00ff00", "#0000ff", "#ff0000", "#ffff00"]
+    const localGuessColors = ref(["#808080", "#808080", "#808080", "#808080" ]);
 
     function submitGuess() {
         console.log('Guess submitted:', localGuessColors.value);

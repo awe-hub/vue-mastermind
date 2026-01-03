@@ -1,7 +1,7 @@
 import { ref } from 'vue';
 
 export function gameLogic() {
-  const colors = ['green', 'red', 'blue', 'yellow']
+  const colors = ["#00ff00", "#0000ff", "#ff0000", "#ffff00"]
   const key = ref([])
   const guesses = ref(Array.from({ length: 10 }, () => ({
       colors: [],
