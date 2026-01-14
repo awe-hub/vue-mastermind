@@ -22,7 +22,7 @@ Enjoy!
 - Built with Vue 3 `<script setup>` SFCs and Vite
 
 ## Live Demo
-Play the game here: https://my-mastermind.s3.us-east-2.amazonaws.com/index.html
+Play the game here: https://d1vvs52ytp60rq.cloudfront.net/
 
 ## Getting Started
 
